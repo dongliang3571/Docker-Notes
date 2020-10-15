@@ -1,8 +1,8 @@
 # Docker-Notes
 
-#### Docker `CMD`
+### Docker `CMD`
 
-##### Creating a Dockerfile with CMD and Building an Image**
+#### Creating a Dockerfile with CMD and Building an Image**
 
 1. Start by creating a new MyDockerImage folder to store your images in:
 
@@ -48,7 +48,7 @@ sudo docker build .
 sudo docker images
 ```
 
-##### Running a Docker Container with CMD
+#### Running a Docker Container with CMD
 
 To see CMD in action, we’ll create a container based on the image made in the previous step.
 Run the container with the command:
@@ -71,15 +71,15 @@ sudo docker run [image_name] hostname
 
 Docker will run the container and the hostname command instead of the CMD’s echo command. You can see this in the output.
 
-#### Docker `Entrypoint`
+### Docker `Entrypoint`
 
 ENTRYPOINT is the other instruction used to configure how the container will run. Just like with CMD, you need to specify a command and parameters.
 
-##### What is the difference between CMD and ENTRYPOINT?
+#### What is the difference between CMD and ENTRYPOINT?
 
 You cannot override the ENTRYPOINT instruction by adding command-line parameters to the docker run command. By opting for this instruction, **you imply that the container is specifically built for such use.** That is, when you do `docker run [image] [some_parameters]`, we know that [some_parameters] are the parameters for ENTRYPOINT command.
 
-##### Creating a Dockerfile with ENTRYPOINT and Building an Image
+#### Creating a Dockerfile with ENTRYPOINT and Building an Image
 
 1. Use the Dockerfile created in the CMD section and edit the file to change the instruction. Open the existing file with a text editor:
 
@@ -98,7 +98,7 @@ ENTRYPOINT [“echo”, “Hello World”]
 
 3. Save and close the file.
 
-##### Running a Docker Container with ENTRYPOINT
+#### Running a Docker Container with ENTRYPOINT
 
 1. Build a new image using the following command:
 
@@ -127,7 +127,7 @@ As you see, **Docker did not override the initial instruction of echoing Hello W
 
 Although you can use ENTRYPOINT and CMD in both forms, **it is generally advised to stick to exec form**. This is the more reliable solution as shell form can occasionally bring about subtle issues in the process
 
-#### Docker `Entrypoint` with `CMD`
+### Docker `Entrypoint` with `CMD`
 
 As you have seen so far, ENTRYPOINT and CMD are similar, but not the same. What’s more, these two instructions are not mutually exclusive. That’s right, it is possible to have both in your Dockerfile.
 
@@ -135,7 +135,7 @@ There are many situations in which combining CMD and ENTRYPOINT would be the bes
 
 If you are using both instructions, make sure to keep them in exec form.
 
-##### Run a Container with Entrypoint and CMD
+#### Run a Container with Entrypoint and CMD
 
 1. First, we are going to modify our existing Dockerfile so it includes both instructions. Open the file with:
 
