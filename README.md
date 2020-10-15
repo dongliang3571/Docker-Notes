@@ -4,6 +4,12 @@
 
 https://github.com/wsargent/docker-cheat-sheet#dockerfile
 
+## FQA
+
+- Should I put database into Docker on production?
+
+Short answer No, long answer https://medium.com/@wkrzywiec/database-in-a-docker-container-how-to-start-and-whats-it-about-5e3ceea77e50
+
 ## Dockerfile Instructions
 
 ### Docker `CMD`
