@@ -168,7 +168,7 @@ CMD [“World”]
 3. Now, build a new image from the modified Dockerfile:
 
 ```bash
-sudo docker build . 
+sudo docker build .
 ```
 
 4. Let’s test the container by running it without any parameters. Enter the command:
@@ -190,3 +190,48 @@ sudo docker run [container_name] some_input
 ```
 
 The output has now changed to `Hello some_input`. This is because **you cannot override ENTRYPOINT instructions, whereas with CMD you can easily do so**.
+
+## Docker Compose
+
+### Instructions
+
+`domainname, hostname, ipc, mac_address, privileged, read_only, shm_size, stdin_open, tty, user, working_dir`
+
+Each of these is a single value, analogous to its `docker run` counterpart. Note that mac_address is a legacy option.
+
+#### hostname
+
+Hostname is not used by docker's built in DNS service. It's a counterintuitive exception, but since hostnames can change outside of docker's control, it makes some sense. Docker's DNS will resolve:
+
+    - the container id
+    - container name
+    - any network aliases you define for the container on that network
+
+The easiest of these options is the last one which is automatically configured when running containers with a compose file. The service name itself is a network alias. This lets you scale and perform rolling updates without reconfiguring other containers.
+
+You need to be on a user created network, not something like the default bridge which has DNS disabled. This is done by default when running containers with a compose file.
+
+Avoid using links since they are deprecated. And I'd only recommend adding host entries for external static hosts that are not in any DNS, for container to container, or access to other hosts outside of docker, DNS is preferred.
+
+#### aliases
+
+say you have a network in your docker-compose.yaml file
+
+```yaml
+networks:
+  default:
+    name: some-name
+    driver: bridge
+
+services:
+  first-sevice:
+    networks:
+        default: # corresponding to the default network above
+            aliases:
+            - some-aliase-you-want # other containers can reach to it by using this alias
+            - some-aliase-you-want-2 # other containers can reach to it by using this alias
+  second-service:
+    context: a-path
+    build: some-folder
+```
+
