@@ -1,20 +1,24 @@
 # Docker-Notes
 
-## Cheat Sheet
+### Cheat Sheet
 
 https://github.com/wsargent/docker-cheat-sheet#dockerfile
 
-## FQA
+### Exit codes
+
+https://betterprogramming.pub/understanding-docker-container-exit-codes-5ee79a1d58f6
+
+### FQA
 
 - Should I put database into Docker on production?
 
 Short answer No, long answer https://medium.com/@wkrzywiec/database-in-a-docker-container-how-to-start-and-whats-it-about-5e3ceea77e50
 
-## Dockerfile Instructions
+### Dockerfile Instructions
 
-### Docker `CMD`
+#### Docker `CMD`
 
-#### Creating a Dockerfile with CMD and Building an Image**
+##### Creating a Dockerfile with CMD and Building an Image**
 
 1. Start by creating a new MyDockerImage folder to store your images in:
 
@@ -60,7 +64,7 @@ sudo docker build .
 sudo docker images
 ```
 
-#### Running a Docker Container with CMD
+##### Running a Docker Container with CMD
 
 To see CMD in action, we’ll create a container based on the image made in the previous step.
 Run the container with the command:
@@ -83,15 +87,15 @@ sudo docker run [image_name] hostname
 
 Docker will run the container and the hostname command instead of the CMD’s echo command. You can see this in the output.
 
-### Docker `Entrypoint`
+#### Docker `Entrypoint`
 
 ENTRYPOINT is the other instruction used to configure how the container will run. Just like with CMD, you need to specify a command and parameters.
 
-#### What is the difference between CMD and ENTRYPOINT?
+##### What is the difference between CMD and ENTRYPOINT?
 
 You cannot override the ENTRYPOINT instruction by adding command-line parameters to the docker run command. By opting for this instruction, **you imply that the container is specifically built for such use.** That is, when you do `docker run [image] [some_parameters]`, we know that [some_parameters] are the parameters for ENTRYPOINT command.
 
-#### Creating a Dockerfile with ENTRYPOINT and Building an Image
+##### Creating a Dockerfile with ENTRYPOINT and Building an Image
 
 1. Use the Dockerfile created in the CMD section and edit the file to change the instruction. Open the existing file with a text editor:
 
@@ -110,7 +114,7 @@ ENTRYPOINT [“echo”, “Hello World”]
 
 3. Save and close the file.
 
-#### Running a Docker Container with ENTRYPOINT
+##### Running a Docker Container with ENTRYPOINT
 
 1. Build a new image using the following command:
 
@@ -191,15 +195,15 @@ sudo docker run [container_name] some_input
 
 The output has now changed to `Hello some_input`. This is because **you cannot override ENTRYPOINT instructions, whereas with CMD you can easily do so**.
 
-## Docker Compose
+### Docker Compose
 
-### Instructions
+#### Instructions
 
 `domainname, hostname, ipc, mac_address, privileged, read_only, shm_size, stdin_open, tty, user, working_dir`
 
 Each of these is a single value, analogous to its `docker run` counterpart. Note that mac_address is a legacy option.
 
-#### hostname
+##### hostname
 
 Hostname is not used by docker's built in DNS service. It's a counterintuitive exception, but since hostnames can change outside of docker's control, it makes some sense. Docker's DNS will resolve:
 
@@ -213,7 +217,7 @@ You need to be on a user created network, not something like the default bridge 
 
 Avoid using links since they are deprecated. And I'd only recommend adding host entries for external static hosts that are not in any DNS, for container to container, or access to other hosts outside of docker, DNS is preferred.
 
-#### aliases
+##### aliases
 
 say you have a network in your docker-compose.yaml file
 
